@@ -1,12 +1,11 @@
 
 from fastapi import FastAPI, File, UploadFile, status, HTTPException
 from fastapi.responses import JSONResponse
-
+from database import POSTGRES_CONNECTION_PATH
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, sessionmaker
 
-from database import POSTGRES_USER, POSTGRES_PASSWORD, DB_HOST, DB_PORT, POSTGRES_DB
 from db_models import Route, Point
 from models import PointCreate, RouteCreate
 from utils import get_optimal_route
@@ -19,7 +18,7 @@ app = FastAPI()
 
 
 
-engine = create_engine(f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{DB_HOST}:{DB_PORT}/{POSTGRES_DB}",
+engine = create_engine(POSTGRES_CONNECTION_PATH,
                        echo=True)
 
 Session = sessionmaker(bind=engine)
@@ -84,8 +83,11 @@ async def upload_file_and_create_route(file: UploadFile = File(...)):
 
         optimal_route = get_optimal_route(points_for_API_request)
         for route in optimal_route:
+
             lng = route[0]
             lat = route[1]
+
+
             points.append(PointCreate(lat=lat, lng=lng))
 
         # Создаем оптимальный маршрут
@@ -135,7 +137,7 @@ async def create_route(route_data: RouteCreate):
         session.close()
 
 
-@app.get("/routes/{route_id}", response_model=RouteCreate, status_code=status.HTTP_200_OK)
+@app.get("/api/routes/{route_id}", response_model=RouteCreate, status_code=status.HTTP_200_OK)
 def get_route(route_id: int):
     route = session.query(Route).filter(Route.id == route_id).first()
 

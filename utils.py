@@ -45,7 +45,7 @@ def get_optimal_route(coordinates: List):
 
     start_point = coordinates[0]
     end_point = coordinates[-1]
-
+    
     decoded_geometry_fixed = [[lat, lon] for lon, lat in decoded_geometry]
 
     # Добавлем в маршрут начальную и конечную точку
@@ -54,4 +54,5 @@ def get_optimal_route(coordinates: List):
     decoded_geometry_fixed.append(end_point)
 
 
-    return decoded_geometry
+    return decoded_geometry_fixed
+

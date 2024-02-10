@@ -22,7 +22,7 @@
   git clone https://github.com/PyScriptZenith/optimal_route
   ```
   ```
-  optimal_route/
+  cd optimal_route/
   ```
 - Создать файл ``.env``, который необходимо заполнить данными из файла ``env.sample``
 - Запустить проект

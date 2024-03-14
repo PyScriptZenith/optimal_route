@@ -1,0 +1,8 @@
+[flake8]
+
+select = E,F,W,C,isort
+
+max-line-length = 112
+
+ignore = F401
+

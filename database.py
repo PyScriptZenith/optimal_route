@@ -1,6 +1,9 @@
 import os
 
-from sqlalchemy.orm import declarative_base, sessionmaker
+from schemas import Point, Route, Base
+
+
+from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
 from dotenv import load_dotenv
 
@@ -16,9 +19,9 @@ POSTGRES_DB = os.getenv("POSTGRES_DB")
 
 POSTGRES_CONNECTION_PATH = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{DB_HOST}:{DB_PORT}/{POSTGRES_DB}"
 
-engine = create_engine(POSTGRES_CONNECTION_PATH,
-                       echo=True)
+engine = create_engine(POSTGRES_CONNECTION_PATH, echo=True)
 
-Base = declarative_base()
 
 SessionLocal = sessionmaker(bind=engine)
+
+Base.metadata.create_all(engine)
